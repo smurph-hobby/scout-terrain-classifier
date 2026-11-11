@@ -1,26 +1,57 @@
-function classifyTerrain(
-    slope,
-    roadDistance,
-    settlementDistance
-) {
+function scoreElevation(elevation) {
 
-    if (
-        slope < 10 &&
-        roadDistance < 500 &&
-        settlementDistance < 1000
-    ) {
-        return "Terrain 0";
+    if (elevation < 100) {
+        return 0;
     }
 
-    if (
-        slope < 20 &&
-        roadDistance < 2000 &&
-        settlementDistance < 5000
-    ) {
-        return "Terrain 1";
+    if (elevation < 300) {
+        return 10;
     }
 
-    return "Terrain 2";
+    if (elevation < 500) {
+        return 20;
+    }
+
+    return 30;
+}
+
+function scoreRoadDistance(distanceToRoad) {
+
+    if (distanceToRoad < 500) {
+        return 0;
+    }
+
+    if (distanceToRoad < 2000) {
+        return 20;
+    }
+
+    if (distanceToRoad < 5000) {
+        return 40;
+    }
+
+    return 60;
+}
+
+function classifyTerrain(elevation, distanceToRoad) {
+
+    const score =
+        scoreElevation(elevation) +
+        scoreRoadDistance(distanceToRoad);
+
+    let terrain = "Terrain 0";
+
+    if (score > 30) {
+        terrain = "Terrain 1";
+    }
+
+    if (score > 60) {
+        terrain = "Terrain 2";
+    }
+
+    return {
+        score,
+        terrain
+    };
 }
 
 module.exports = {
